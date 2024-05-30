@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	v1 "echo-demo/clients/userclient"
 	"echo-demo/clients/userclient/dtos"
 	"github.com/labstack/echo"
@@ -15,7 +16,7 @@ func DeleteUser(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	resp, err := UserClient.DeleteUser(c.Request().Context(), &v1.DeleteUserRequest{
+	resp, err := UserClient.DeleteUser(context.Background(), &v1.DeleteUserRequest{
 		Id: int32(id),
 	})
 	if err != nil {
@@ -34,7 +35,7 @@ func UpdateUser(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	resp, err := UserClient.UpdateUser(c.Request().Context(), &v1.UpdateUserRequest{
+	resp, err := UserClient.UpdateUser(context.Background(), &v1.UpdateUserRequest{
 		UserDto: &v1.UserDto{
 			Id:               userRequest.Id,
 			Name:             userRequest.Name,
@@ -62,7 +63,7 @@ func CreatUser(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	resp, err := UserClient.CreateUser(c.Request().Context(), &v1.CreateUserRequest{
+	resp, err := UserClient.CreateUser(context.Background(), &v1.CreateUserRequest{
 		User: &v1.UserDto{
 			Name:             userRequest.Name,
 			Age:              userRequest.Age,
@@ -83,7 +84,7 @@ func CreatUser(c echo.Context) error {
 }
 
 func GetAllUsers(c echo.Context) error {
-	resp, err := UserClient.ListUser(c.Request().Context(), &v1.ListUserRequest{})
+	resp, err := UserClient.ListUser(context.Background(), &v1.ListUserRequest{})
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
@@ -104,7 +105,7 @@ func GetUsers(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	resp, err := UserClient.GetUser(c.Request().Context(), &v1.GetUserRequest{
+	resp, err := UserClient.GetUser(context.Background(), &v1.GetUserRequest{
 		Id: int32(id),
 	})
 	if err != nil {
